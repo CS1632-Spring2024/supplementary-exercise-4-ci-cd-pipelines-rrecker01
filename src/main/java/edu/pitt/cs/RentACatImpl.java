@@ -3,6 +3,8 @@ package edu.pitt.cs;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.mockito.internal.matchers.Null;
+
 public class RentACatImpl implements RentACat {
 
 	private ArrayList<Cat> cats = new ArrayList<Cat>();
@@ -17,9 +19,17 @@ public class RentACatImpl implements RentACat {
 	 * @return true if cat exists and was rented out, false otherwise
 	 */
 
-	public boolean returnCat(int id) {
-		// TODO: Fill in
-		return false;
+	 public boolean returnCat(int id) {		
+		if ((getCat(id) != null) && (getCat(id).getRented() == true)) {
+			getCat(id).returnCat();
+			System.out.println("Welcome back, " + getCat(id).getName() + "!");
+			return true;
+		} else if(getCat(id) != null){
+			System.out.println(getCat(id).getName() + " is already here!");
+			return false;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -33,8 +43,16 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean rentCat(int id) {
-		// TODO: Fill in
-		return false;
+		if ((getCat(id) != null) && (getCat(id).getRented() == false)) {
+			getCat(id).rentCat();
+			System.out.println(getCat(id).getName() + " has been rented.");
+			return true;
+		} else if(getCat(id) != null){
+			System.out.println("Sorry, " + getCat(id).getName() + " is not here!");
+			return false;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -47,7 +65,10 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean renameCat(int id, String name) {
-		// TODO: Fill in
+		if (getCat(id) != null) {
+			getCat(id).renameCat(name);
+			return true;
+		}
 		return false;
 	}
 
@@ -62,8 +83,13 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public String listCats() {
-		// TODO: Fill in
-		return "WRITE CODE FOR THIS";
+		String temp = "";
+		for (Cat obj : cats) {
+			if (obj.getRented() == false) {
+				temp += obj.toString() + "\n";
+			}
+		}
+		return temp;
 	}
 
 	/**
